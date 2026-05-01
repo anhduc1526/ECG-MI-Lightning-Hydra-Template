@@ -20,7 +20,7 @@ trainer:
   max_epochs: 15
   accelerator: auto
   devices: 1
-  deterministic: true
+  deterministic: false
 
 model:
   optimizer:
