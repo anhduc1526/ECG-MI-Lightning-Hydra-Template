@@ -38,8 +38,8 @@ model:
 data:
   csv_file: "ptb_fold.csv"
   data_dir: "/kaggle/input/datasets/tphdng/ecg-dataset/"
-  fold_train: [1, 2, 3, 4]
-  fold_test: [0]
+  fold_train: [0, 1, 2, 3]
+  fold_test: [4]
   batch_size: 256
   num_workers: 2
   split_ratio: 0.8
