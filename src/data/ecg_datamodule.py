@@ -152,7 +152,7 @@ class ECGDataModule(LightningDataModule):
     def __init__(
         self,
         csv_file: str = "ptb_fold.csv",
-        data_dir: str = "/kaggle/input/datasets/tphdng/ecg-model/ecg/",
+        data_dir: str = "/kaggle/input/datasets/tphdng/ecg-dataset",
         fold_train: List[int] = [1, 2, 3, 4],
         fold_test: List[int] = [0],
         batch_size: int = 256,
