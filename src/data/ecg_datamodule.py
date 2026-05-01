@@ -196,7 +196,7 @@ class ECGDataModule(LightningDataModule):
         )
 
         # Chọn cách chia theo bệnh nhân nếu không thì sẽ theo nhịp tim
-        split_with_patient = False
+        split_with_patient = True
 
         if split_with_patient:
             # Chia theo bệnh nhân (patient-wise split)
