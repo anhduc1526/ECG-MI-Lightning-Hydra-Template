@@ -1,0 +1,67 @@
+# @package _global_
+
+# to execute this experiment run:
+# python src/train.py experiment=ecg_mcdann
+
+# This experiment config reproduces ecg/main.py EXACTLY for MCDANN model.
+
+defaults:
+  - override /data: ecg
+  - override /model: ecg
+  - override /callbacks: default
+  - override /trainer: default
+
+tags: ["ecg", "mcdann", "cross_validation"]
+
+seed: 30
+
+trainer:
+  min_epochs: 1
+  max_epochs: 15
+  accelerator: auto
+  devices: 1
+  deterministic: true
+
+model:
+  optimizer:
+    lr: 0.001
+  scheduler:
+    T_max: ${trainer.max_epochs}
+    eta_min: 0.00001
+  net:
+    _target_: src.models.components.mcdann_net.MCDANNNet
+    num_classes: 2
+  num_classes: 2
+  label_smoothing: 0.1
+  compile: false
+
+data:
+  csv_file: "ptb_fold.csv"
+  data_dir: "/kaggle/input/datasets/tphdng/ecg-model/ecg/"
+  fold_train: [1, 2, 3, 4]
+  fold_test: [0]
+  batch_size: 256
+  num_workers: 2
+  split_ratio: 0.8
+  sample_before: 198
+  sample_after: 400
+  pin_memory: true
+
+callbacks:
+  model_checkpoint:
+    dirpath: ${paths.output_dir}/checkpoints
+    filename: "ecg-{epoch:02d}-{val/acc:.4f}"
+    monitor: "val/acc"
+    mode: "max"
+    save_top_k: 1
+    save_last: true
+    auto_insert_metric_name: false
+
+  early_stopping:
+    monitor: "val/acc"
+    patience: 100
+    mode: "max"
+
+  swa:
+    _target_: lightning.pytorch.callbacks.StochasticWeightAveraging
+    swa_lrs: 0.001

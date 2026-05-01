@@ -1,0 +1,12 @@
+_target_: src.data.ecg_datamodule.ECGDataModule
+
+csv_file: "ptb_fold.csv"
+data_dir: ${paths.data_dir}
+fold_train: [1, 2, 3, 4]
+fold_test: [0]
+batch_size: 256
+num_workers: 2
+split_ratio: 0.8
+sample_before: 198
+sample_after: 400
+pin_memory: true

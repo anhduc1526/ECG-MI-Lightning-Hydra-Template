@@ -1,0 +1,22 @@
+_target_: src.models.ecg_module.ECGLitModule
+
+optimizer:
+  _target_: torch.optim.Adam
+  _partial_: true
+  lr: 0.001
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+  _partial_: true
+  T_max: ${trainer.max_epochs}
+  eta_min: 0.00001  # lr / 100 = 0.001 / 100
+
+net:
+  _target_: src.models.components.mcdann_net.MCDANNNet
+  num_classes: 2
+
+num_classes: 2
+label_smoothing: 0.1
+
+# compile model for faster training with pytorch 2.0
+compile: false
